@@ -63,18 +63,3 @@ filedName = filedName.replaceAll("[\\\\$.\\\"]", "_"); // MongoDB 필드명 예�
 |`\0`|널 문자, 문자열 종료 신호|
 |`\`|이스케이프 문자|
 |`"`|문자열 구분용 큰따옴표|
-
----
-
-## 6. 마무리
-
-
-
-- `Map key ... contains dots but no replacement was configured`
-    
-- `Document can't have $ prefixed field names`
-    
-
-2023년 12월 28일에 버그를 수정하며 위 방식으로 필드명 치환 로직을 반영했고, 후처리 규칙 생성 시점에서 처리하도록 개선하여 안정적인 데이터 적재가 가능해졌습니다.
-
-필드명 예외 처리에 대해 더 궁금한 점 있으면 언제든 문의 주세요!
