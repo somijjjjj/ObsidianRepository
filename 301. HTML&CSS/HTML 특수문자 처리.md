@@ -60,7 +60,7 @@ document.querySelector("input").value = safe;
 
 ### 🔐 보안 관점에서의 중요성
 
-이러한 처리는 단순한 화면 표시 문제뿐 아니라, **XSS(Cross Site Scripting)** 같은 보안 위협을 방지하는 데도 중요합니다. 사용자 입력값이 HTML 구조에 무방비로 삽입되면, 악성 스크립트가 실행될 수 있기 때문입니다.
+이러한 처리는 단순한 화면 표시 문제뿐 아니라, **[[XSS(Cross Site Scripting)]]** 같은 보안 위협을 방지하는 데도 중요합니다. 사용자 입력값이 HTML 구조에 무방비로 삽입되면, 악성 스크립트가 실행될 수 있기 때문입니다.
 
 ---
 
@@ -75,6 +75,3 @@ document.querySelector("input").value = safe;
 
 > 웹 개발에서 "보이는 그대로"를 만든다는 것은, "보안과 안정성까지 고려한다"는 의미입니다.
 
----
-
-필요하면 이 글을 Markdown, Notion, Velog 스타일 등으로 변환해드릴 수도 있어요!
