@@ -32,7 +32,7 @@ HTML에서 주요 특수문자는 다음과 같이 이스케이프 시켜야 안
 **예시 수정:**
 
 ```html
-<input type="text" value="&lt;script&gt;">
+<div> <script></div>
 ```
 
 이렇게 바꾸면 브라우저는 `<script>`를 단순 문자열로 인식하고 화면에 그대로 출력합니다.
