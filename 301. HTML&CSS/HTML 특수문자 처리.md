@@ -63,3 +63,8 @@ document.querySelector("input").value = safe;
 이러한 처리는 단순한 화면 표시 문제뿐 아니라, **[[XSS(Cross Site Scripting)]]** 같은 보안 위협을 방지하는 데도 중요합니다. 사용자 입력값이 HTML 구조에 무방비로 삽입되면, 악성 스크립트가 실행될 수 있기 때문입니다.
 
 
+---
+
+- http://kor.pe.kr/util/4/charmap2.htm#google_vignette
+- https://taemssssss.tistory.com/23#google_vignette
+- https://inpa.tistory.com/entry/HTML-%F0%9F%93%9A-%EF%BC%86nbsp-%EF%BC%86amp-%EF%BC%86lt-%EF%BC%86gt-%EF%BC%86quot-%EC%9D%98%EB%AF%B8
