@@ -1,13 +1,14 @@
 
-
-요약 및 정리:
-
 ---
 
 ### 문제 상황
 
 - Eclipse 2025-03 버전 새 설치 후
 - `Windows -> Preferences -> Version Control -> SVN` 선택 시 오류 발생
+
+```
+org/eclipse/compare/internal/tabfolderlayout error
+```
 
 https://i.sstatic.net/AdjrHH8J.png
 https://stackoverflow.com/questions/79351203/svn-eclipse-plugin-subversive-not-working-when-i-have-upgraded-to-eclipse-2024
