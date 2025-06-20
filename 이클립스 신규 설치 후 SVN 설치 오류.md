@@ -10,6 +10,7 @@
 - `Windows -> Preferences -> Version Control -> SVN` 선택 시 오류 발생
 
 https://i.sstatic.net/AdjrHH8J.png
+https://stackoverflow.com/questions/79351203/svn-eclipse-plugin-subversive-not-working-when-i-have-upgraded-to-eclipse-2024
 
 ---
 
@@ -37,7 +38,3 @@ https://download.eclipse.org/technology/subversive//updates/release/latest
     
 - 직접 최신 업데이트 저장소를 추가하고 재설치하면 문제 해결됨
     
-
----
-
-필요하면 설치 과정이나 세부 방법도 알려줄게요!
