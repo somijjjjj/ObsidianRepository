@@ -17,8 +17,7 @@ Sortable 주로 드래그 앤 드롭으로 요소의 순서를 바꾸는 기능�
 - `opacity`: 드래그 중 요소 투명도 설정.
 - `revert`: 드롭 후 원래 위치로 되돌아갈지 여부.
 - `start`, `stop`, `sort`, `change`, `update`, `receive`, `remove`, `over`, `out`, `activate`, `deactivate`: 이벤트 콜백 함수.
-
--  
+    - `sort` : 드래그 중 아이템 위치가 변할 때마다 발생하는 이벤트
 
 
 
