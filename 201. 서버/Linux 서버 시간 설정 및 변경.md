@@ -76,8 +76,3 @@ sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 #### 🔗 참고 링크
 
 - [Colt 블로그 - 시간/날짜 설정 timedatectl](https://colt357.tistory.com/entry/%EC%8B%9C%EA%B0%84%EB%82%A0%EC%A7%9C-%EC%84%A4%EC%A0%95-timedatectl)
-    
-
----
-
-필요 시 `.md` 파일로 내려받을 수 있도록 저장용 파일도 만들어드릴 수 있습니다. 원하시나요?
