@@ -1,12 +1,14 @@
 
 
 ## 현상
+
 - 동일한 부모 요소 내에서 아래에서 위로는 드래그가 잘 되는데,  
 - 맨 위에 있는 아이템을 아래로 드래그할 때 placeholder 영역이 잡히지 않아 드래그가 잘 안됨
 
 ---
 
 ## 원인 추정
+
 - jQuery UI Sortable의 위치 계산 및 placeholder 영역 감지 문제
 - 기본 `tolerance` 옵션의 작동 방식에 의한 감지 실패
 - placeholder 크기 미설정 또는 DOM 위치 문제
@@ -106,5 +108,20 @@ $("#sortable").sortable({
 ```
 
 
+### 8. `sort` 이벤트 활용 (해결결)
 
+- `sort` 이벤트는 드래그 중 아이템 위치가 변할 때마다 발생하는 이벤트
+- 이 이벤트 핸들러를 활용해 placeholder 위치 보정, 스타일 조정, 문제 발생 시점 디버깅 가능
+    
+```js
+$("#sortable").sortable({
+  sort: function(event, ui) {
+    // 드래그 중 placeholder 위치 및 인덱스 확인
+    console.log("Sorting, placeholder index:", ui.placeholder.index());
+    // 필요 시 위치 조정 또는 추가 로직 실행 가능
+  }
+});
+
+```
+- `sort` 이벤트를 적절히 활용하면 맨 위 아이템을 아래로 이동 시 placeholder 인식 문제를 개선할 수 있음
 
