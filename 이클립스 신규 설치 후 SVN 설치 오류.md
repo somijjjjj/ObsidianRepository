@@ -9,7 +9,7 @@
 - Eclipse 2025-03 버전 새 설치 후
 - `Windows -> Preferences -> Version Control -> SVN` 선택 시 오류 발생
 
-
+https://i.sstatic.net/AdjrHH8J.png
 
 ---
 
