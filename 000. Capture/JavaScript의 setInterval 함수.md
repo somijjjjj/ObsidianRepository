@@ -12,9 +12,8 @@
     
 
 ```javascript
-`// 2초마다 현재 시간을 콘솔에 출력 const intervalId = setInterval(() => {   console.log(new Date()); }, 2000);`
+// 2초마다 현재 시간을 콘솔에 출력 const intervalId = setInterval(() => {   console.log(new Date()); }, 2000);
 ```
-
 
 
 이렇게 하면 2초마다 한 번씩 함수가 실행됩니다[1](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)[3](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval)[6](https://hong42.tistory.com/140).
@@ -23,9 +22,9 @@
 
 setInterval로 시작한 반복 실행을 멈추고 싶을 때는 반환된 interval ID를 clearInterval에 전달하면 됩니다.
 
-javascript
-
-`clearInterval(intervalId);`
+```javascript
+clearInterval(intervalId);
+```
 
 이렇게 하면 해당 interval이 더 이상 실행되지 않습니다[1](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)[3](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval)[6](https://hong42.tistory.com/140).
 
@@ -33,11 +32,17 @@ javascript
 
 setInterval에 넘기는 함수가 인자를 받을 경우, 세 번째 인자부터 함수에 전달할 값을 지정할 수 있습니다.
 
-javascript
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
 
-``function greet(name) {   console.log(`Hello, ${name}!`); } setInterval(greet, 1000, "Alice"); // 1초마다 "Hello, Alice!" 출력``
+setInterval(greet, 1000, "Alice"); // 1초마다 "Hello, Alice!" 출력
+
+```
 
 또는 익명 함수(화살표 함수)를 사용해 직접 인자를 넘길 수도 있습니다[5](https://kyounghwan01.github.io/blog/JS/JSbasic/intervalFunction/)[6](https://hong42.tistory.com/140).
+
 
 ## 주의사항 및 특징
 
