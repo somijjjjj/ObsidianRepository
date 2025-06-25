@@ -55,17 +55,31 @@ setInterval(greet, 1000, "Alice"); // 1초마다 "Hello, Alice!" 출력
 - setInterval은 함수 실행이 끝나기를 기다리지 않고, 지정된 시간마다 콜백을 호출하므로, 콜백 내에서 긴 작업이 있다면 주의해야 합니다[3](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval).
     
 
-## 대표 예시
+## 사용 예시
 
-javascript
 
-`let count = 0; const intervalId = setInterval(() => {   count++;  console.log(count);  if (count === 5) {    clearInterval(intervalId); // 5회 반복 후 중단  } }, 1000);`
+
+```javascript
+let count = 0;
+const intervalId = setInterval(() => {
+  count++;
+  console.log(count);
+  if (count === 5) {
+    clearInterval(intervalId); // 5회 반복 후 중단
+  }
+}, 1000);
+
+```
+
 
 이 코드는 1초마다 count를 증가시키고, 5가 되면 반복을 멈춥니다[1](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)[6](https://hong42.tistory.com/140).
+
 
 **정리**:  
 setInterval 함수는 일정한 시간 간격으로 코드를 반복 실행할 때 사용하며, 반환된 interval ID로 clearInterval을 호출해 반복을 중지할 수 있습니다. 반복 실행이 필요 없는 경우 setTimeout을 사용하세요[1](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)[3](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval)[6](https://hong42.tistory.com/140).
 
+
+---
 1. [https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)
 2. [https://www.daleseo.com/js-timer/](https://www.daleseo.com/js-timer/)
 3. [https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval)
@@ -76,3 +90,9 @@ setInterval 함수는 일정한 시간 간격으로 코드를 반복 실행할 �
 8. [https://devuna.tistory.com/48](https://devuna.tistory.com/48)
 9. [https://velog.io/@dianestar/JavaScript-React-React%EC%97%90%EC%84%9C-setInterval%EC%9D%98-%ED%99%9C%EC%9A%A9](https://velog.io/@dianestar/JavaScript-React-React%EC%97%90%EC%84%9C-setInterval%EC%9D%98-%ED%99%9C%EC%9A%A9)
 10. [https://batcave.tistory.com/53](https://batcave.tistory.com/53)
+
+
+---
+
+
+[[setInterval() 사용 시 주의할 점]]
