@@ -1,3 +1,6 @@
+https://ko.javascript.info/settimeout-setinterval
+https://dev.to/igadii/think-twice-before-using-setinterval-for-api-polling-it-might-not-be-ideal-3n3
+
 
 
 **setInterval()** 함수는 JavaScript에서 특정 코드를 일정한 시간 간격으로 반복 실행하고 싶을 때 사용하는 내장 함수입니다[1](https://velog.io/@hyerin0930/JavaScript-setTimeout-setInterval)[3](https://developer.mozilla.org/ko/docs/Web/API/Window/setInterval)[6](https://hong42.tistory.com/140).
