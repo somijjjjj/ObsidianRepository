@@ -1,5 +1,30 @@
 
 
+| 은행명     | 계좌번호 형식                                           | 자릿수     |
+|---------|---------------------------------------------------|---------|
+| 한국산업은행  | YYY-ZZZZZZZC-XXX                                  | 14      |
+| IBK기업은행 | XXX-YY-ZZZZZZC / XXX-BBBBBB-YY-ZZC                | 12 / 14 |
+| KB국민은행  | AAAAYY-ZZ-ZZZZZC                                  | 14      |
+| Sh수협은행  | YYYZ-ZZZZ-ZZZC                                    | 12      |
+| NH농협은행  | YYY-ZZZZ-ZZZZ-CT                                  | 13      |
+| 우리은행    | SYYY-CZZ-ZZZZZZ                                   | 13      |
+| SC제일은행  | XXX-YY-ZZZZZC                                     | 11      |
+| 한국씨티은행  | XXX-ZZZZZ-YYC-ZZ                                  | 13      |
+| iM뱅크    | YYY-ZZ-ZZZZZZ-C                                   | 12      |
+| 부산은행    | YYY-ZZZZ-ZZZZ-ZC                                  | 13      |
+| 광주은행    | ZYYY-ZZZ-ZZZZZC                                   | 13      |
+| 제주은행    | YYY-ZZZ-ZZZZZC                                    | 12      |
+| 새마을금고   | SYYY-ZZZZ-ZZZZ-C                                  | 13      |
+| 신용협동조합  | YYY-ZZZ-ZZZZZC                                    | 12      |
+| 상호저축은행  | WWW-XX-YY-ZZZZZZC                                 | 14      |
+| 산림조합    | ZZZZZ-YY-ZZZZZZ                                   | 13      |
+| 우체국예금   | XXXXXX-YY-ZZZZZC / XXXXXX-ZZZZZZC / YYY-ZZZZZZZZC | 12~14   |
+| 하나은행    | XXX-ZZZZZZ-ZZCYY                                  | 14      |
+| 신한은행    | YYY-ZZZ-ZZZZZC                                    | 12      |
+| 케이뱅크    | YYY-YNN-NNZZZZ                                    | 12      |
+| 카카오뱅크   | TYYY-ZZ-ZZZZZZZ                                   | 13      |
+| 토스뱅크    | YYYZ-ZZZZ-ZZZC                                    | 12      |
+
 
 | 번호  | 은행명     | 계좌번호 앞자리 패턴               | 예시                                      | 비고             |
 | --- | ------- | ------------------------- | --------------------------------------- | -------------- |
