@@ -63,7 +63,8 @@ AI Agent의 흐름
 
 ### MCP 작동방식
 
-![image.png](attachment:d2525395-d1df-4db2-a620-3dfadd98ae37:image.png)
+
+![[Pasted image 20250709145019.png|500]]
 
 구조: Host–Client–Server 모델
 
