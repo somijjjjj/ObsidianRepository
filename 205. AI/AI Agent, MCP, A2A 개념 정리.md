@@ -1,6 +1,5 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/52
-update:
 ---
 
 
