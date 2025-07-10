@@ -1,4 +1,6 @@
-https://jn-silveryoung.tistory.com/18
+---
+tistory: https://jn-silveryoung.tistory.com/18
+---
 
 
 # 1.'eclipse.ini' 설정 파일 설정

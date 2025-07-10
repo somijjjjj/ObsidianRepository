@@ -1,6 +1,5 @@
 ---
-tags:
-  - Nginx
+tags: []
 ---
 
 - nginx 서비스 상태
