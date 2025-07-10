@@ -44,3 +44,24 @@
 ## ⚡ TAG 관리 규칙
 
 
+
+- 태그는 `#영역/하위항목` 형태로 사용
+- 검색 및 필터링이 용이하도록 되도록 일관된 네이밍 사용
+- 예시:
+  - `#topic/ai`
+  - `#status/ongoing`
+  - `#publish/draft`
+
+
+### 🗒️ publish 태그 규칙
+
+> 내부 노트의 외부 발행 여부를 관리할 때 사용
+
+- `#publish/todo` : 초기 상태
+- `#publish/draft` : 초안 작성 중
+- `#publish/ready` : 발행 직전 최종 점검
+- `#publish/done` : 발행 완료
+- `#publish/update_needed` : 발행했으나 수정 필요
+- `#publish/hold` : 발행 보류 상태 (추후 검토 예정)
+
+> 해당 태그는 노트 상단 또는 메타데이터(YAML frontmatter)에서 관리
