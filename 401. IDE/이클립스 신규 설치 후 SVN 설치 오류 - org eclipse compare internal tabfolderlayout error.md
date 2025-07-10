@@ -1,6 +1,7 @@
 ---
 tags:
-  - publish/ready
+  - publish/done
+tistory: https://jn-silveryoung.tistory.com/53
 ---
 
 
