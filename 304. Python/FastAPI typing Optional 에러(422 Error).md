@@ -1,5 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/16
+tags:
+  - publish/done
 ---
 ```python
 from pydantic import BaseModel from typing import Optional, List

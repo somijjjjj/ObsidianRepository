@@ -1,6 +1,6 @@
 ---
 tags:
-  - 작성중
+  - publish/draft
 ---
 
 

@@ -1,6 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/45
-sticker: lucide//coffee
+tags:
+  - publish/done
 ---
 
 오라클 클라우드 MFA는 계정 보안을 강화하기 위해 사용되는 인증 방식이다.

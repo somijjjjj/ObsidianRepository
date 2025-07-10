@@ -1,5 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/47
+tags:
+  - publish/done
 ---
 1\. MariaDB 설치
 

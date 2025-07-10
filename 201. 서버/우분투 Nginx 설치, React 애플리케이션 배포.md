@@ -1,5 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/49
+tags:
+  - publish/done
 ---
 
 **Nginx를 사용해 애플리케이션을 배포하는 방법**은 Nginx를 **리버스 프록시**로 설정하여 외부 트래픽을 애플리케이션 서버(Node.js 등)로 전달하는 방식입니다. 이를 통해 사용자는 표준 HTTP 포트(80번) 또는 HTTPS 포트(443번)를 통해 애플리케이션에 접근할 수 있습니다.

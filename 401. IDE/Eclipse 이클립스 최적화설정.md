@@ -1,5 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/18
+tags:
+  - publish/done
 ---
 
 

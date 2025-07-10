@@ -1,5 +1,7 @@
 ---
 tistory: https://jn-silveryoung.tistory.com/48
+tags:
+  - publish/done
 ---
 
 Ubuntu 서버에 Redis를 설치하려면 다음 단계를 따르시면 됩니다.
