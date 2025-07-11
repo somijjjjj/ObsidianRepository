@@ -66,6 +66,10 @@ mergedSet.addAll(listB);
 ## 🗂️ 참고
 
 - `ArrayList`, `HashSet`은 `java.util` 패키지에 포함되어 있음
-    
 - `Stream`, `Collectors`는 `java.util.stream` 패키지에 포함
     
+
+---
+
+> 다음 공부할 내용
+> - [[Java Collection Framework]]
