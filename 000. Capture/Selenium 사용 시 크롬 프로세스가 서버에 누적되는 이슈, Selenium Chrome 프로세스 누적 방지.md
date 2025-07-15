@@ -176,17 +176,59 @@ root     1546157  1  0 13:21 ? 00:00:00 /opt/google/chrome/chrome_crashpad_handl
 
 ---
 
-## 🧪 적용된 종료 처리 코드 (Java)
+## 🧪 적용된 개선 코드 (Java)
 
 ```java
-public void killOrphanChromeProcesses(String keyword) {
-    try {
-        String cmd = "ps -ef | grep " + keyword + " | grep -v grep | awk '$3 == 1 {print $2}' | xargs kill -9";
-        Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd});
-    } catch (IOException e) {
-        e.printStackTrace();
+ChromeOptions options = new ChromeOptions();
+options.addArguments(arguments);
+options.setExperimentalOption("detach", false); // 프로세스가 백그라운드에 남지않도록
+```
+드라이버 실행 옵션 중 driver.quit() 호출 시 브라우저 창과 프로세스가 함께 종료되는 설정값을 지정.
+해당 옵션을 명시하지 않더라도 기본값이 false이지만, 명확히 적는것이 로직상 안전하므로 설정값을 추가함.
+
+
+```java	
+	/* 서버 실행 시 크롬 고아 프로세스 정리 */
+	public void killOrphanByChrome() {
+        try {
+            // PPID가 1인 프로세스 전체 조회
+            String command = "ps -ef | awk '$3 == 1'";
+            Process process = Runtime.getRuntime().exec(new String[] {"bash", "-c", command});
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("chrome")) {
+                    String[] parts = line.trim().split("\\s+");
+                    if (parts.length > 1) {
+                        String pid = parts[1]; // PID는 두 번째 열
+                        LOGGER.info("종료 대상 프로세스 : " + String.join(" | ", parts) );
+                        Runtime.getRuntime().exec("kill -9 " + pid);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
+```
+
+고아 프로세스를 정리하는 메서드는  driver.quit() 를 호출하기 전 실행하도록 추가함
+부모 PID가 1인 크롬 프로세스를 검색하고, 프로세스를 죽이고, 드라이버  quit로 세션을 종료하도록 하여 안전하게 프로세스와 드라이버 객체 초기화까지 할 수 있음
+
+
+확인 로그
+
+```shell
+[2025-07-15 16:29:51]  INFO (runner.Class - tagetStoreSearch:342) -             크롬 세션 연결 30분 지남.. 세션 재 연결
+[2025-07-15 16:29:52]  INFO (runner.Class - killOrphanByChrome:2692) - 종료 대상 프로세스 : root | 1563762 | 1 | 0 | 16:23 | ? | 00:00:00 | /opt/google/chrome/chrome_crashpad_handler | --monitor-self | --monitor-self-annotation=ptype=crashpad-handler | 
+[2025-07-15 16:29:52]  INFO (runner.Class - killOrphanByChrome:2692) - 종료 대상 프로세스 : root | 1563764 | 1 | 0 | 16:23 | ? | 00:00:00 | /opt/google/chrome/chrome_crashpad_handler | 
+[2025-07-15 16:29:52]  INFO (runner.Class - getReConnectSeleniumWebDriver:2657) - ✅종료 전 WebDriver 세션 ID: a88799802c90d734379f9a55e9150a3a
+[2025-07-15 16:29:52]  INFO (runner.Class - getReConnectSeleniumWebDriver:2660) - 기존 WebDriver 세션 종료
+[2025-07-15 16:29:52]  INFO (runner.Class - getReConnectSeleniumWebDriver:2663) - ✅종료 후 기존 driver.getSessionId(): null
+[2025-07-15 16:30:14]  INFO (runner.Class - getConnectSeleniumWebDriver:2635) - ✅ChromeDriver 생성됨 - 세션 ID: f3079cfed4724a64c7b6f099ee2b05d5
+
 ```
 
 
