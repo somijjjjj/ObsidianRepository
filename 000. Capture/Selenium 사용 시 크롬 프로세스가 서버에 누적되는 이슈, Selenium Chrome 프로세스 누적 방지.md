@@ -161,4 +161,5 @@ https://github.com/SeleniumHQ/selenium/issues/15632
 https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/1445
 https://www.reddit.com/r/webscraping/comments/1dv9v8j/chrome_process_keeps_running_in_background_even/
 
+
 `#selenium` `#chromedriver` `#리눅스프로세스` `#크롬고아프로세스` `#크롤링서버운영` `#프로세스정리` `#driver.quit` `#크롬메모리누수`
