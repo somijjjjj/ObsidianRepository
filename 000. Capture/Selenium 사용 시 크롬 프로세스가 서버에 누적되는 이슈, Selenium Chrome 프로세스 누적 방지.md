@@ -53,6 +53,11 @@ Selenium 로직 실행
 이 명령은 부모 프로세스 ID가 1인 크롬 관련 고아 프로세스만 필터링합니다.
 이로써 chrome, chromedriver 관련 프로세스들이 종료되지 않고 남아 있는 상태를 확인할 수 있었습니다.
 
+> 크롬 프로세스
+
+- 크롬은 하나의 드라이버로 실행되더라도 여러 개의 하위 프로세스를 생성합니다. (렌더링, GPU, crashpad 등)
+- 특히 crashpad는 오류 리포팅 용도로 사용되는 별도 프로세스로, 드라이버와 별개로 남을 수 있음
+
 ---
 
 ## 🔧 개선된 로직 흐름
@@ -114,23 +119,15 @@ options.setExperimentalOption("detach", false); // 프로세스가 백그라운�
     }
 ```
 
-고아 프로세스를 정리하는 메서드는  driver.quit() 를 호출하기 전 실행하도록 추가함
-부모 PID가 1인 크롬 프로세스를 검색하고, 프로세스를 죽이고, 드라이버  quit로 세션을 종료하도록 하여 안전하게 프로세스와 드라이버 객체 초기화까지 할 수 있음
 
-- ps -ef 명령어로 현재 시스템의 모든 프로세스를 조회
-- 그중 부모 PID가 1인(고아 상태) 프로세스만 필터링
-- 해당 프로세스의 명령어에 chrome이 포함되어 있는지 확인
-- 발견된 경우, kill -9 명령으로 강제 종료
+프로세스를 정리하는 메서드는  driver.quit() 를 호출하기 전 실행하도록 추가함
+부모 PID가 1인 크롬 프로세스를 검색하고, 프로세스를 죽이고, driver.quit()로 세션을 종료하도록 하여 안전하게 프로세스와 드라이버 객체 초기화까지 할 수 있음
 
-즉, 드라이버 세션을 종료하기 전에, 크롬이 남긴 프로세스를 먼저 청소하는 방식입니다.
 
 > 왜 driver.quit() 이후가 아니라 직전에 해야 할까?
 
-driver.quit() 이후에는 Selenium에서 관리하던 브라우저 세션이 사라지므로, 크롬과의 연결이 완전히 끊어집니다.
-이후에 남아 있는 프로세스를 추적하더라도 어떤 드라이버가 만들었는지 관계없이 모든 프로세스를 죽게됩니다.
-반대로 driver.quit() 직전에 상태를 점검하면 명확하게 해당 수집기에서 발생한 프로세스만 타겟팅할 수 있음
-이후 driver.quit()으로 세션 정리를 마무리하면 메모리 누수가 없는 완전 종료가 됨
-
+driver.quit() 이후에는 Selenium에서 관리하던 브라우저 세션이 사라지므로, 크롬과의 연결이 완전히 끊어집니다. 이후에 남아 있는 프로세스를 추적하더라도 어떤 드라이버가 만들었는지 관계없이 모든 프로세스를 죽게됩니다.
+반대로 driver.quit() 직전에 상태를 점검하면 명확하게 해당 수집기에서 발생한 프로세스만 타겟팅할 수 있어서 이후 driver.quit()으로 세션 정리를 마무리하면 메모리 누수가 없는 완전 종료 할 수 있습니다.
 
 ### ✅ 개선 이후 로그 확인
 
@@ -150,6 +147,18 @@ driver.quit() 이후에는 Selenium에서 관리하던 브라우저 세션이 �
 `driver.quit()` 호출만으로는 완전한 프로세스 정리가 보장되지 않는 경우가 있습니다. 특히 크롬의 구조상 여러 하위 프로세스가 분리되어 실행되기 때문에, 고아 상태로 남은 프로세스를 주기적으로 감시하고 정리 해야 서버 메모리 누수 및 성능 저하를 예방할 수 있습니다.
 
 
+---
 
+### 참고자료
+
+
+[📘Chromium 공식 문서 - Multiprocess Architecture Overview](https://www.chromium.org/developers/design-documents/multi-process-architecture)
+- 크롬은 탭, 렌더러, GPU, 확장 기능, 네트워크, 브라우저, Crashpad 등 다양한 역할별로 프로세스를 분리해 안정성과 보안을 확보함
+
+📄 Selenium GitHub 이슈 사례
+
+https://github.com/SeleniumHQ/selenium/issues/15632
+https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/1445
+https://www.reddit.com/r/webscraping/comments/1dv9v8j/chrome_process_keeps_running_in_background_even/
 
 `#selenium` `#chromedriver` `#리눅스프로세스` `#크롬고아프로세스` `#크롤링서버운영` `#프로세스정리` `#driver.quit` `#크롬메모리누수`
