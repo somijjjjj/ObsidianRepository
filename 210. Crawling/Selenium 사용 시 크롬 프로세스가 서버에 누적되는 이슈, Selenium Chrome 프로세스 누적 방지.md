@@ -1,6 +1,8 @@
 ---
 tags:
   - status/done
+  - publish/done
+tistory: https://jn-silveryoung.tistory.com/56
 ---
 
 ### 📌 문제 배경
@@ -163,3 +165,4 @@ https://www.reddit.com/r/webscraping/comments/1dv9v8j/chrome_process_keeps_runni
 
 
 `#selenium` `#chromedriver` `#리눅스프로세스` `#크롬고아프로세스` `#크롤링서버운영` `#프로세스정리` `#driver.quit` `#크롬메모리누수`
+
