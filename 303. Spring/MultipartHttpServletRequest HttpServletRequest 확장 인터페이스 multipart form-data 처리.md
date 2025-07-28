@@ -26,7 +26,7 @@ public String upload(MultipartHttpServletRequest request) throws Exception {
 ### 요청 처리 흐름
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[클라이언트 요청<br>파일 업로드] --> B[서블릿 컨테이너<br>Tomcat 등]
     B --> C[DispatcherServlet <br>Spring MVC 진입]
     C --> D{MultipartResolver <br>활성화?}
@@ -42,3 +42,6 @@ flowchart LR
 ### 관련 정보
 
 [[HttpServletRequest 서블릿 표준 API]]
+[[서블릿 컨테이너 (Servlet Container)]]
+[[Spring MVC]]
+[[MultipartResolver]]
