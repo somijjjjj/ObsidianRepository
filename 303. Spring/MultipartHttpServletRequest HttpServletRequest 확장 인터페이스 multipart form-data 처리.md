@@ -44,4 +44,3 @@ flowchart TD
 [[HttpServletRequest 서블릿 표준 API]]
 [[서블릿 컨테이너 (Servlet Container)]]
 [[Spring MVC]]
-[[MultipartResolver]]
