@@ -23,14 +23,21 @@
 - `209. 보안`: 보안 사고, 제로트러스트, EDR, 암호화 등
 - `210. Crawling:` 크롤링 대상 사이트 분석, 크롤링 사용 도구 정리 등
 
-## 📁 300~399: 언어 & 프레임워크
+## 📁 300~399: 언어 & 프레임워크 & 라이브러리
 
-- `301. HTML&CSS`, `302. JavaScript`, `303. Spring`, `305. Java` 등
-- `306. FrontEnd`: React, Next.js, Tailwind 등
+- **`301. HTML&CSS`** : HTML5, CSS3, 스타일링 기법    
+- **`302. JavaScript`** : 기본 문법, ES6+, 비동기 처리, 모듈    
+- **`303. Spring`** _(Java 기반 백엔드 프레임워크)_  
+- **`304. Python`** 기본 문법, 자료구조, 표준 라이브러리, 데이터 처리
+- **`305. Java`** : 기본 문법, OOP, 스트림, 스레드    
+- **`306. React`** _(JavaScript 기반 UI 라이브러리)_
+- **`307. FrontEnd (기타)`** : Vue, Angular, Tailwind, 전반적인 FE 패턴
 
 ## 📁 400~499: 개발 도구
 
-- `401. IDE`: VSCode, IntelliJ, 단축키, 플러그인 설정 등
+- **`401. IDE`** : VSCode, IntelliJ, 플러그인 설정    
+- **`402. 버전관리`** : Git, GitHub, 브랜치 전략    
+- **`403. 빌드/배포`** : Webpack, Vite, CI/CD
 
 ## 📁 900~999: 시스템용 / 임시 저장소
 
