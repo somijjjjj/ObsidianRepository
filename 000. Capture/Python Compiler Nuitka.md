@@ -93,3 +93,59 @@ python -m pip install -U Nuitka
 **추천 상황**
 
 - “컨테이너 밖/타사 환경에도 배포해야 해서 **파이썬 런타임 없이 돌아가야 함**”
+
+
+# 사용 예시
+
+```bash
+python -m nuitka main.py --standalone --enable-plugin=multiprocessing --enable-plugin=eventlet --output-dir=/api/main.dist
+```
+
+**1. python -m nuitka**
+
+- `nuitka` 패키지를 **Python 모듈 실행 방식**(`m`)으로 호출
+- Nuitka는 `.py` 파일을 C++ 코드로 변환 후 컴파일해서 실행 속도를 높이거나, 소스 코드 보호 목적으로 사용
+
+---
+
+**2. [main.py](http://main.py)**
+
+- 컴파일할 진입점(Entry Point) 파일
+- 여기서 `main.py`가 프로그램 시작점 역할을 함
+
+---
+
+**3. -standalone**
+
+- **독립 실행 모드**
+    
+- Python 런타임과 모든 필요한 의존성(라이브러리, `.py` 파일 등)을 **하나의 실행 폴더**에 넣어서,
+    
+    Python이 설치되지 않은 환경에서도 실행 가능하게 함
+    
+- PyInstaller의 `-onefile`과 비슷하지만, Nuitka는 속도·호환성 측면에서 좀 더 안정적
+    
+
+---
+
+**4. -enable-plugin=multiprocessing**
+
+- Python `multiprocessing` 모듈 사용 시 필요한 Nuitka 플러그인 활성화
+- `multiprocessing`이 프로세스를 새로 띄울 때 발생하는 경로 문제를 해결해 줌
+
+---
+
+**5. -enable-plugin=eventlet**
+
+- **Eventlet** 라이브러리 사용 시 필요한 Nuitka 플러그인
+- Eventlet은 비동기 네트워킹 라이브러리로, Celery의 `-pool=eventlet` 같은 구조에서 필요
+- 이 플러그인을 활성화해야 Eventlet 관련 패치·호환 설정이 자동 적용됨
+
+---
+
+**6. -output-dir=/api/main.dist**
+
+- 빌드 결과물을 저장할 경로 지정
+- `/api/main.dist` 디렉토리에 실행 파일과 필요한 라이브러리들이 저장됨
+
+---
