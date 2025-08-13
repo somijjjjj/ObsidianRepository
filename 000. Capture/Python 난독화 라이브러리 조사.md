@@ -448,26 +448,6 @@ pyecli compile --pye -s=.
 dir /s /b *.pye
 ```
 
-```bash
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api>dir /s /b *.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\hello.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\main.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\test.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\celery\\celery_app.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\apiReqProcess.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\chunking.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\dataImport.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\operators.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\postFix.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\textAnalysis.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\textPreprocess.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\function\\utils.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\mariaDB\\connectDB.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\mariaDB\\mySqlConnector.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\request\\requestApi.pye
-C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\setting\\mongoClient.pye
-
-```
 
 난독화 된 스크립트 실행
 
@@ -475,25 +455,13 @@ C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api\\setting\\mongoClient
 pyconcrete main.pye
 ```
 
-- main 프로세스 실행 안됨
-    
-    ```bash
-    C:\\eGovFrameDev-4.3.0-64bit\\workspace-egov\\dataScan_api>pyconcrete main.pye
-    INFO:     Will watch for changes in these directories: ['C:\\\\eGovFrameDev-4.3.0-64bit\\\\workspace-egov\\\\dataScan_api']
-    INFO:     Uvicorn running on <http://0.0.0.0:8888> (Press CTRL+C to quit)
-    INFO:     Started reloader process [17560] using StatReload
-    ```
-    
-    - 정상적으로 uvicorn 실행되었으나 api 통신이 안되는 상태
-    - 현재는 Uvicorn이 `reload=True`로 실행돼서 “리로더 프로세스만 뜬 상태
-        - 리로더는 내부적으로 새 하위 프로세스를 python으로 다시 띄우는데, 그 아이는 pyconcrete 래퍼를 거치지 않아서 암호화(.pye) 모듈을 못 불러오고 죽습니다. 그래서 API가 안 먹는 것
     
 
-![image.png](attachment:4752eea5-a7a5-4fc7-8e99-1d9d4139c499:image.png)
+![[Pasted image 20250813145615.png]]
 
 ---
 
-## **2-4. Cython**
+## **2-4. Cpython**
 
 - **방식**: `.py` → C 코드 → 확장 모듈(.so/.pyd) 컴파일
 - **보호 강도**: 높음 (바이너리 형태)
@@ -692,58 +660,6 @@ python  opy -c opy_config.txt
 |**Cython**|C로 변환해 확장모듈(.pyd/.so)|높음|성능 최적화 가능, 부분 적용 용이|빌드 스크립트 필요, 코드 수정 가능성|**핵심 알고리즘 보호 + 성능 향상**|
 |**Opy**|소스 난독화(식별자/문자열)|중|무료, 범위/규칙 제어 쉬움|평문 .py 필요(실행 시), 보안 한계|**코드 가독성 저하로 분석 지연**|
 
-- ⚖️ PyArmor vs pyminifier vs **pyconcrete**차이점
-    
-    |항목|**PyArmor**|**pyminifier**|**pyconcrete**|
-    |---|---|---|---|
-    |**난독화 방식**|**바이트코드 암호화 + 런타임 복호화**|**소스 코드 변환(텍스트 레벨)**|**바이트코드 암호화 + C 런타임 복호화**|
-    |**보호 강도**|매우 강함 (실행 시 복호화된 바이트코드만 메모리에 존재)|낮음~중간 (소스 구조를 변형하지만, 복원 가능성 높음)|높음 (PyArmor보다는 단순 구조)|
-    |**복원 난이도**|역공학이 매우 어려움|일부 역공학 툴로 비교적 쉽게 복원 가능|역공학 난이도 높음, 하지만 PyArmor 대비 런타임 구조 단순|
-    |**동작 원리**|`.py` → `.pyc` 바이트코드 생성 후 암호화 → 실행 시 PyArmor 런타임이 복호화 후 로드|식별자 이름 변경, 주석 제거, 코드 압축(화이트스페이스 제거)|`.py` → `.pyc` → AES 암호화 → `.pye` 생성 → 실행 시 C 기반 런타임이 복호화 후 메모리에서 로드|
-    |**실행 파일 형태**|난독화된 `.py`(런타임 포함) → 그대로 실행 가능|변환된 `.py` 그대로 실행 가능|`.pye` 파일과 런타임 모듈([pyconcrete.so/.pyd](http://pyconcrete.so/.pyd))로 실행|
-    |**성능 영향**|미미~약간 느려질 수 있음 (런타임 복호화 과정)|거의 없음|런타임 복호화로 약간의 지연 발생|
-    |**배포 형태**|난독화된 소스 + PyArmor 런타임(`pytransform` 등)|난독화된 소스만 배포|`.pye` 암호화 파일 + pyconcrete 런타임 배포|
-    |**추가 기능**|실행 기간 제한, 기기 바인딩(라이선스 락), 패키징 옵션 등|단순 난독화, 압축, Base64 인코딩|없음 (순수 암호화/실행 기능만 제공)|
-    |**라이선스**|**부분 무료** (상용, trial 버전 제한)|**오픈소스** (MIT License), 완전 무료|**오픈소스** (MIT License), 완전 무료|
-    |**적합한 상황**|상용 서비스, 폐쇄형 배포, 소스 유출 방지가 중요한 경우. 실행 기간 제한, 특정 기기에서만 실행 등 라이선스 제어 필요|오픈소스 프로젝트, 가벼운 난독화. 속도 저하 없이 파일 크기 줄이기(압축 효과). 보안보다는 “코드 읽기 불편하게 만들기” 목적|무료이면서 바이트코드 암호화 기반 보안을 원할 때. PyArmor만큼 복잡한 기능은 필요 없고, 단순히 소스 보호와 실행만 필요할 때|
-    
-- ⚖️ Nuitka vs Cpython
-    
-    |항목|Nuitka|Cython|
-    |---|---|---|
-    |변환 대상|**순수 Python** → C++ 코드 → 실행 파일/확장 모듈|**Python + Cython 확장 문법** → C 코드 → 확장 모듈|
-    |목적|**완전한 파이썬 프로그램을 컴파일**해서 배포 가능 (원본 소스 숨김)|성능 최적화 + C 확장 개발 (보호 목적은 부가 효과)|
-    |코드 수정 필요성|거의 없음 (기존 .py 그대로)|고성능·최적화를 하려면 `cdef`, `cpdef` 등 Cython 문법 써야 함|
-    |빌드 결과|단일 실행 파일(`.exe`) 또는 공유 라이브러리(.so/.pyd)|주로 `.pyd`(Windows) / `.so`(Linux) 확장 모듈|
-    |성능 향상|CPython 그대로 돌리는 경우는 성능 향상 크지 않음(보호 중심)|타입 지정 최적화 시 상당한 성능 향상 가능|
-    |배포 난이도|비교적 쉬움 (`--onefile`, `--follow-imports`)|빌드 스크립트/설정 필요, C 컴파일러 환경 세팅 필요|
-    |보안(소스 보호)|매우 강함 — C++ 바이너리로 빌드되어 역공학 난이도 높음|.pyd/.so로 빌드되어도 바이너리 디컴파일 가능성 있음|
-    |적합한 상황|- 소스 코드 노출 방지가 최우선||
-    
-    - 기존 프로젝트를 거의 수정하지 않고 그대로 빌드하고 싶음
-    - 단일 실행 파일(.exe)로 배포하고 싶음 | - 성능 최적화가 주 목표
-    - C 확장과의 연동, 복잡한 수치 연산/알고리즘 최적화
-    - 일부 모듈만 고성능으로 바꾸고 싶음 |
-- ⚖️ Opy vs Pyconcrete
-    
-    |구분|**Opy**|**Pyconcrete**|
-    |---|---|---|
-    |**방식**|소스 코드 **난독화** (Obfuscation)|Python 바이트코드 **암호화 & 런타임 복호화**|
-    |**결과물**|`.py` 파일 그대로 존재하지만, 가독성이 극도로 떨어짐|`.pyc` 대신 **암호화된 바이너리 파일** 생성|
-    |**보안 수준**|중간 — 난독화지만, 여전히 역공학 가능|높음 — 암호화된 상태에서 실행, 역공학 난이도 높음|
-    |**목표**|코드 읽기 어렵게 하여 분석 지연|코드 자체를 배포 시 **노출 차단**|
-    |**장점**|- 오픈소스 & 무료||
-    
-    - 설정 파일로 난독화 범위 세밀 제어
-    - 멀티 모듈 지원 | - 코드 자체를 암호화해 안전성 높음
-    - 역공학 난이도 높음
-    - 실행 시 복호화가 메모리에서만 이루어짐 | | **단점** | - 보안 한계 있음(시간 들이면 복원 가능)
-    - 실행 시 평문 소스 필요 | - 배포 환경에 Pyconcrete 런타임 필요
-    - 컴파일·빌드 과정이 필요
-    - 일부 환경에서 호환성 문제 | | **사용 용도** | - 내부 로직 숨기기
-    - 리버스 엔지니어링 지연 | - 상용 SW 코드 보호
-    - 고객사 배포 시 소스 완전 은닉 |
-
 ---
 
 # 3. 테스트
@@ -760,203 +676,73 @@ python  opy -c opy_config.txt
 - **장점**: 소스(.py) 배포 안 함, 이미지가 비교적 가벼움, 라이선스 걱정 X
     
 - **단점**: PyArmor처럼 라이선스 락/만료일 같은 정책 기능은 없음
-    
-- ~~1) 프로젝트 내 모든 py 난독화하여 도커로 실행하도록 테스트~~
-    
-    빌드할 때 py코드는 모두 제거하고 난독화한 pye만 남긴 뒤
-    
-    pye로 난독화된 main과 celery를 pyconcrete 래퍼로 실행하도록 하는데
-    
-    작은 오류들 발생으로 실행 못함
-    
-    - Dockerfile (multi-stage)
-        
-        ```docker
-        # syntax=docker/dockerfile:1
-        
-        ############################
-        # 1) Build stage
-        ############################
-        FROM python:3.8-slim AS build
-        WORKDIR /src
-        
-        # 빌드 도구
-        RUN apt-get update && apt-get install -y --no-install-recommends build-essential \\
-         && rm -rf /var/lib/apt/lists/*
-        
-        # (선택) 의존성 캐시 최적화를 위해 먼저 requirements만 복사
-        # COPY requirements.txt /src/requirements.txt
-        # RUN pip install --no-cache-dir -r requirements.txt
-        
-        # 앱 소스 복사
-        COPY . /src
-        
-        # ---- pyconcrete 휠 빌드(+설치) & .pye 생성 ----
-        # 빌드 인자: PYCONCRETE_PASS (CI/CD Secret로 주입 권장)
-        ARG PYCONCRETE_PASS
-        
-        # 1) passphrase로 pyconcrete wheel 빌드
-        RUN pip wheel --no-cache-dir pyconcrete \\
-            --config-settings=setup-args="-Dpassphrase=${PYCONCRETE_PASS}" \\
-            -w /wheels
-        
-        # 2) build 단계에 설치(pyecli 사용하려고)
-        RUN pip install --no-cache-dir /wheels/pyconcrete-*.whl
-        
-        # 3) 프로젝트 전체 .py -> .pye
-        RUN pyecli compile --pye -s=/src
-        
-        # 4) 배포용 번들 생성: .pye + 리소스만 (원본 .py 제거)
-        #    필요한 데이터/설정 확장자만 추가하세요.
-        RUN mkdir -p /bundle \\
-         && cp -a /src/. /bundle/ \\
-         && find /bundle -type f -name "*.py" -delete \\
-         && find /bundle -type d -name "__pycache__" -prune -exec rm -rf {} +
-        
-        ############################
-        # 2) Runtime stage
-        ############################
-        FROM python:3.8-slim AS runtime
-        WORKDIR /app
-        ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
-        
-        # 앱 의존성 설치 (uvicorn, fastapi 등)
-        # 권장: requirements.txt를 루트에 두고 복사
-        # COPY requirements.txt /app/requirements.txt
-        # RUN pip install --no-cache-dir -r /app/requirements.txt
-        
-        # build에서 만든 pyconcrete 휠만 가져와 설치(런타임에서 passphrase 노출 방지)
-        COPY --from=build /wheels /wheels
-        RUN pip install --no-cache-dir /wheels/pyconcrete-*.whl \\
-         && rm -rf /wheels
-        
-        # 암호화된 앱 파일 배포
-        COPY --from=build /bundle /app
-        
-        EXPOSE 8888
-        # 엔트리가 main.pye라면:
-        CMD ["pyconcrete", "main.pye"]
-        
-        ```
-        
-        ```bash
-        set PYCONCRETE_PASS="#misodev!@"
-        docker build --build-arg PYCONCRETE_PASS=%PYCONCRETE_PASS% -t datascan-api:enc .
-        
-        ```
-        
-        ```bash
-        docker run --rm -p 8080:80 --name datascan datascan-api:enc
-        
-        ```
-        
-        ```bash
-        # 컨테이너 셸로 진입
-        docker run --rm -it --entrypoint sh datascan-api:enc
-        
-        # 1) pyconcrete CLI 존재?
-        which pyconcrete && pyconcrete --help
-        
-        # 2) pye 파일들 생성돼 있음?
-        ls -l /api/main.pye
-        ls -l /api/celery/celery_app.pye
-        
-        # 3) cmd.sh 내용 확인 (혹시 python pyconcrete ... 로 되어있는지)
-        sed -n '1,120p' /api/cmd.sh
-        
-        ```
-        
-- 2. 핵심 모듈만 pye로 컴파일
-    
-    ```bash
-    FROM python:3.8
-    
-    # 필요 패키지
-    RUN apt-get update && apt-get install -y \\
-        redis-server \\
-        vim \\
-        build-essential python3-dev pkg-config ninja-build \\        
-        && rm -rf /var/lib/apt/lists/*
-    
-    # 앱 루트
-    WORKDIR /api
-    
-    # pip 최신화 (중요)
-    RUN python -m pip install --upgrade pip setuptools wheel
-    
-    # 의존성
-    COPY ./requirements.txt /api/requirements.txt
-    COPY ./mecab /mecab
-    RUN pip install --no-cache-dir --upgrade -r /api/requirements.txt
-    RUN pip install --no-cache-dir konlpy mecab-python3
-    
-    # ===== MeCab 설치 (요건 기존대로 유지) =====
-    WORKDIR /mecab
-    RUN tar -zxvf /mecab/mecab-0.996-ko-0.9.2.tar.gz
-    WORKDIR /mecab/mecab-0.996-ko-0.9.2
-    RUN ./configure && make && make check && make install && ldconfig
-    
-    WORKDIR /mecab
-    RUN tar -zxvf /mecab/mecab-ko-dic-2.1.1-20180720.tar.gz
-    WORKDIR /mecab/mecab-ko-dic-2.1.1-20180720
-    RUN ./autogen.sh && ./configure && make && make install
-    # =========================================
-    
-    # 앱 소스 복사 (난독화 전에 전체 복사)
-    WORKDIR /api
-    COPY ./ /api
-    
-    # ===== pyconcrete: 특정 디렉토리만 난독화 =====
-    # OBFUSCATE_DIR: 난독화할 대상 디렉토리 (예: /api/app/secure)
-    ARG OBFUSCATE_DIR
-    ARG PYCONCRETE_PASSPHRASE
-    # pyconcrete 설치 및 키 생성/내장 빌드
-    RUN pip install --no-cache-dir pyconcrete==1.1.0 \\
-        --config-settings=setup-args="-Dpassphrase=${PYCONCRETE_PASSPHRASE}" \\
-    	# mode: lib  → import hook 방식(부분 난독화) 사용할 때 권장
-        --config-settings=setup-args="-Dmode=lib" \\
-        --config-settings=setup-args="-Dinstall-cli=true"
-    
-    # -s 소스경로, --pye: .pye 생성, --remove: 원본 .py 제거
-    RUN pyecli compile --pye -s=${OBFUSCATE_DIR} --remove-py
-    # sitecustomize로 pyconcrete import hook 자동 활성화
-    # (컨테이너에서 어떤 파이썬 프로세스가 떠도 .pye를 해독할 수 있도록 보장)
-    # 방법 A: sitecustomize로 전역 hook
-    RUN python - <<'PY'
-    import site, os
-    p = site.getsitepackages()[0]
-    open(os.path.join(p, "sitecustomize.py"), "w").write("import pyconcrete\\n")
-    PY
-    
-    # 선택: 개발 산출물/캐시 정리 (있다면)
-    # RUN rm -rf /api/tests /api/docs
-    
-    # 엔트리포인트 (기존 유지)
-    WORKDIR /api
-    CMD ["./cmd.sh"]
-    
-    ```
-    
-    ```bash
-    
-    docker build --build-arg PYCONCRETE_PASSPHRASE="#misodev!@" --build-arg OBFUSCATE_DIR=./function -t datascan-api:enc . 
-    ```
-    
-    ```bash
-    docker run -d -p 8888:80 --name datascan -v d:/fileupload:/share001 datascan-api:enc
-    ```
-    
-    ```bash
-    docker exec datascan sh -lc "echo [py count]; find /api/function -type f -name '*.py' | wc -l; echo [pye count]; find /api/function -type f -name '*.pye' | wc -l; echo [samples]; find /api/function -type f -name '*.pye' | head -n 10"
-    
-    ```
-    
+
+
+### 핵심 모듈만 pye로 컴파일
+
+- 도커 파일 작성성
+```bash
+FROM python:3.8
+
+# 필요 패키지
+RUN apt-get update && apt-get install -y \\
+	redis-server \\
+	vim \\
+	build-essential python3-dev pkg-config ninja-build \\        
+	&& rm -rf /var/lib/apt/lists/*
+
+# 앱 루트
+WORKDIR /api
+
+# pip 최신화 (중요)
+RUN python -m pip install --upgrade pip setuptools wheel
+
+... # 다른 빌드 코드 
+
+
+# ===== pyconcrete: 특정 디렉토리만 난독화 =====
+# OBFUSCATE_DIR: 난독화할 대상 디렉토리 (예: /api/app/secure)
+ARG OBFUSCATE_DIR
+ARG PYCONCRETE_PASSPHRASE
+# pyconcrete 설치 및 키 생성/내장 빌드
+RUN pip install --no-cache-dir pyconcrete==1.1.0 \\
+	--config-settings=setup-args="-Dpassphrase=${PYCONCRETE_PASSPHRASE}" \\
+	# mode: lib  → import hook 방식(부분 난독화) 사용할 때 권장
+	--config-settings=setup-args="-Dmode=lib" \\
+	--config-settings=setup-args="-Dinstall-cli=true"
+
+# -s 소스경로, --pye: .pye 생성, --remove: 원본 .py 제거
+RUN pyecli compile --pye -s=${OBFUSCATE_DIR} --remove-py
+# sitecustomize로 pyconcrete import hook 자동 활성화
+# (컨테이너에서 어떤 파이썬 프로세스가 떠도 .pye를 해독할 수 있도록 보장)
+# 방법 A: sitecustomize로 전역 hook
+RUN python - <<'PY'
+import site, os
+p = site.getsitepackages()[0]
+open(os.path.join(p, "sitecustomize.py"), "w").write("import pyconcrete\\n")
+PY
+
+```
+
+
+- 도커 이미지 빌드 시 암호화 키와 난독화 대상 디렉터리 아규먼트 넘기기
+```bash
+docker build --build-arg PYCONCRETE_PASSPHRASE="암호" --build-arg OBFUSCATE_DIR=경로 -t datascan-api:enc . 
+```
+
+```bash
+docker run -d -p 8888:80 --name datascan -v d:/fileupload:/share001 datascan-api:enc
+```
+
+```bash
+docker exec datascan sh -lc "echo [py count]; find /api/function -type f -name '*.py' | wc -l; echo [pye count]; find /api/function -type f -name '*.pye' | wc -l; echo [samples]; find /api/function -type f -name '*.pye' | head -n 10"
+
+```
+
 - py파일과 pye파일 확인
-    
-
-![image.png](attachment:5093de98-d9cf-4780-9e11-14e42e7399e1:image.png)
-
-![image.png](attachment:5cc0a326-b097-437a-af29-63ae4496cdf0:image.png)
+  
+  경로 내 py파일은 없고 pye 파일만 존재재
+    ![[Pasted image 20250813150109.png]]
 
 ---
 
@@ -969,73 +755,73 @@ ini 파일은 컴파일 불가
 
 - Dockerfile - 모듈 → 평균 2분이내 빌드
     
-    - py파일 모두 컴파일
+- py파일 모두 컴파일
+    
+```bash
+FROM python:3.8
+
+# 빌드 도구 (Nuitka와 MeCab 빌드에 필요)
+RUN apt-get update && apt-get install -y \\
+	build-essential \\
+	autoconf automake libtool pkg-config \\
+	redis-server \\
+	vim
+
+WORKDIR /api
+
+COPY ./requirements.txt /api/requirements.txt
+COPY ./mecab /mecab
+
+RUN pip install --no-cache-dir --upgrade -r /api/requirements.txt
+RUN pip install --no-cache-dir konlpy mecab-python3
+
+# ===== MeCab 설치 =====
+WORKDIR /mecab
+RUN tar -zxvf /mecab/mecab-0.996-ko-0.9.2.tar.gz
+WORKDIR /mecab/mecab-0.996-ko-0.9.2
+RUN ./configure && make && make check && make install && ldconfig
+
+WORKDIR /mecab
+RUN tar -zxvf /mecab/mecab-ko-dic-2.1.1-20180720.tar.gz
+WORKDIR /mecab/mecab-ko-dic-2.1.1-20180720
+RUN ./autogen.sh && ./configure && make && make install
+
+# 앱 복사
+WORKDIR /api
+COPY ./ /api
+
+# ===== 🔒 Nuitka로 function 모듈 컴파일(.so) 후 .py 교체 =====
+# __init__.py는 유지, 나머지는 명시 파일만 .so로 바꿔서 원본 .py 삭제
+RUN pip install --no-cache-dir nuitka ordered-set zstandard && \\
+	set -eux; mkdir -p /api/build; \\
+	FILES="$(printf '%s\\n' \\
+	  /api/celery/celery_app.py \\
+	  /api/mariaDB/connectDB.py \\
+	  /api/mariaDB/mySqlConnector.py \\
+	  /api/request/requestApi.py \\
+	  /api/setting/mongoClient.py \\
+	  /api/function/apiReqProcess.py \\
+	  /api/function/chunking.py \\
+	  /api/function/dataImport.py \\
+	  /api/function/operators.py \\
+	  /api/function/postFix.py \\
+	  /api/function/textAnalysis.py \\
+	  /api/function/textPreprocess.py \\
+	  /api/function/utils.py )"; \\
+	printf '%s\\n' $FILES | grep -E '\\.py$' | xargs -n1 -P"$(nproc)" -I{} sh -c '\\
+	  f="$1"; bn=$(basename "$f" .py); dn=$(dirname "$f");\\
+	  python -m nuitka --module "$f" --output-dir=/api/build;\\
+	  so=$(ls -1 /api/build/${bn}.*.so | head -n1) || exit 1;\\
+	  cp "$so" "$dn/${bn}.so"; rm -f "$f";\\
+	' _ {}; \\
+	find /api -type d -name "__pycache__" -prune -exec rm -rf {} +; \\
+	find /api -type f -name "*.pyc" -delete
+
+# ============================================
+
+CMD ["./cmd.sh"]
         
-        ```bash
-        FROM python:3.8
-        
-        # 빌드 도구 (Nuitka와 MeCab 빌드에 필요)
-        RUN apt-get update && apt-get install -y \\
-            build-essential \\
-            autoconf automake libtool pkg-config \\
-            redis-server \\
-            vim
-        
-        WORKDIR /api
-        
-        COPY ./requirements.txt /api/requirements.txt
-        COPY ./mecab /mecab
-        
-        RUN pip install --no-cache-dir --upgrade -r /api/requirements.txt
-        RUN pip install --no-cache-dir konlpy mecab-python3
-        
-        # ===== MeCab 설치 =====
-        WORKDIR /mecab
-        RUN tar -zxvf /mecab/mecab-0.996-ko-0.9.2.tar.gz
-        WORKDIR /mecab/mecab-0.996-ko-0.9.2
-        RUN ./configure && make && make check && make install && ldconfig
-        
-        WORKDIR /mecab
-        RUN tar -zxvf /mecab/mecab-ko-dic-2.1.1-20180720.tar.gz
-        WORKDIR /mecab/mecab-ko-dic-2.1.1-20180720
-        RUN ./autogen.sh && ./configure && make && make install
-        
-        # 앱 복사
-        WORKDIR /api
-        COPY ./ /api
-        
-        # ===== 🔒 Nuitka로 function 모듈 컴파일(.so) 후 .py 교체 =====
-        # __init__.py는 유지, 나머지는 명시 파일만 .so로 바꿔서 원본 .py 삭제
-        RUN pip install --no-cache-dir nuitka ordered-set zstandard && \\
-            set -eux; mkdir -p /api/build; \\
-            FILES="$(printf '%s\\n' \\
-              /api/celery/celery_app.py \\
-              /api/mariaDB/connectDB.py \\
-              /api/mariaDB/mySqlConnector.py \\
-              /api/request/requestApi.py \\
-              /api/setting/mongoClient.py \\
-              /api/function/apiReqProcess.py \\
-              /api/function/chunking.py \\
-              /api/function/dataImport.py \\
-              /api/function/operators.py \\
-              /api/function/postFix.py \\
-              /api/function/textAnalysis.py \\
-              /api/function/textPreprocess.py \\
-              /api/function/utils.py )"; \\
-            printf '%s\\n' $FILES | grep -E '\\.py$' | xargs -n1 -P"$(nproc)" -I{} sh -c '\\
-              f="$1"; bn=$(basename "$f" .py); dn=$(dirname "$f");\\
-              python -m nuitka --module "$f" --output-dir=/api/build;\\
-              so=$(ls -1 /api/build/${bn}.*.so | head -n1) || exit 1;\\
-              cp "$so" "$dn/${bn}.so"; rm -f "$f";\\
-            ' _ {}; \\
-            find /api -type d -name "__pycache__" -prune -exec rm -rf {} +; \\
-            find /api -type f -name "*.pyc" -delete
-        
-        # ============================================
-        
-        CMD ["./cmd.sh"]
-        
-        ```
+```
         
     
     ```bash
