@@ -41,54 +41,8 @@
 PyTorch에서 `torch.cuda.is_available()`을 실행했을 때 GPU를 인식하지 못하는 경우, 보통 엔비디아 드라이버가 너무 오래돼 CUDA runtime과 호환되지 않는 상황입니다. 포럼 사례에서도 “시스템의 NVIDIA 드라이버가 너무 오래되었으니 NVIDIA 웹사이트에서 새 버전을 설치하라”라는 오류 메시지가 나왔습니다. 따라서 GPU를 사용할 때는 **PyTorch에서 요구하는 CUDA 버전을 지원하는 최신 드라이버**를 설치해야 합니다.
 
 
+---
 
-## Compute Capability는 무엇인가
+### 관련 글
 
-
-- NVIDIA가 **GPU 세대/아키텍처를 구분하는 버전 번호**입니다.
-    
-    - 예: Turing(=GTX 16xx/20xx) → **7.5**, Ampere(RTX 30xx) → **8.6**, A100 → **8.0**, Hopper(H100) → **9.0** …
-        
-- 이 숫자에 따라 **사용 가능한 명령어/하드웨어 기능**(Tensor Core 세대, 연산 최적화, 메모리 특성)이 달라집니다. 새로운 세대일수록 더 많은 기능을 지원하고 성능이 최적화되어 있습니다.
-
-- CUDA 코드는 결국 **GPU용 기계어(=SASS)** 또는 **중간표현(=PTX)** 으로 컴파일돼서 실행되는데,어떤 GPU에서 돌릴지에 따라 **다른 바이너리**가 필요합니다.
-  
-- 내 카드(예: 7.5)용 바이너리가 **빠져 있으면**, 그 커널을 로드할 때 에러가 터질 수 있습니다.
-    `no kernel image is available for execution on the device`
-
-- 컴파일러(`nvcc`)나 PyTorch 빌드가 이 CC 값을 보고 **그 GPU에서 동작 가능한 커널 코드**를 생성합니다. 예를 들어, `8.6` (RTX 30xx 시리즈)로 빌드했는데, 실제 GPU가 `7.5`라면 실행이 안 될 수 있습니다. 반대로 `7.5` 기준으로 빌드하면 RTX 30xx에서도 동작은 하지만, **최신 최적화 기능**을 사용 못합니다.
-
-### 아키텍처별 요약 순위 (최신 → 구세대)
-
-1. **CC 10.0**: GB200/B200
-2. **CC 9.0**: H100 시리즈 (Hopper)
-3. **CC 8.9**: Ada Lovelace RTX 40‑시리즈
-4. **CC 8.6**: Ampere A40/A10 계열
-5. **CC 8.0**: Ampere A100
-6. **CC 7.5**: Turing GTX 16xx / RTX 20xx / GTX 1650 Ti
-
-
-
-### GPU 아키텍처 목적
-
-GPU 아키텍처는 데이터센터와 소비자용으로 구분할 수 있다
-- **데이터센터 GPU**
-    
-    - AI 학습, HPC(슈퍼컴퓨터), 빅데이터 분석 같은 **대규모 연산**에 최적화
-        
-    - 주요 특징: Tensor Core, NVLink, HBM 메모리 → **확장성과 안정성 중점**
-        
-    - 드라이버 스택 : CUDA Toolkit, cuDNN, TensorRT 등 AI/HPC용 스택 최적화 지원
-		
-
-- **소비자용 GPU (GeForce, RTX 등)**
-    
-    - 게임, 그래픽 렌더링, 개인용 AI 등 **일반 사용자 작업**에 최적화
-        
-    - 주요 특징: GDDR 메모리, 가격 대비 성능 → **그래픽 성능 중점**
-        
-    - 드라이버 스택: Game Ready Driver, Studio Driver 등 그래픽 및 게임 성능 중심
-
-
-
-
+[[GPU 아키텍처와 Compute Capability 정리]]
