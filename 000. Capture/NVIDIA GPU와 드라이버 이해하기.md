@@ -87,3 +87,11 @@ PyTorch에서 `torch.cuda.is_available()`을 실행했을 때 GPU를 인식하�
 4. **CC 8.6**: Ampere A40/A10 계열
 5. **CC 8.0**: Ampere A100
 6. **CC 7.5**: Turing GTX 16xx / RTX 20xx / GTX 1650 Ti
+
+
+
+### GPU 아키텍처 목적
+
+GPU 아키텍처는 데이터센터와 소비자용으로 구분할 수 있다
+데이터센터 GPU
+- 
