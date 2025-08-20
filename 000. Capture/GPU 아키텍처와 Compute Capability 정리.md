@@ -1,5 +1,5 @@
 
-
+https://www.reddit.com/r/CUDA/comments/w7i0vb/what_exactly_is_compute_capability_cc/?tl=ko
 ## Compute Capability란?
 - NVIDIA GPU의 **아키텍처 버전 번호**로, 하드웨어 기능(지원 명령어, Tensor Core 세대, 메모리 특성 등)을 정의.  
 - 예: Turing → CC 7.5, Ampere → CC 8.6, A100 → CC 8.0, Hopper(H100) → CC 9.0, Blackwell(GB200/B200) → CC 10.0.  
