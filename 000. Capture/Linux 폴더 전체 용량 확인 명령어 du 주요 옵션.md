@@ -73,8 +73,6 @@
 ```bash
 du -sh *               # 현재 폴더 안 하위 디렉토리별 총 용량
 du -sh embedding rerank # 특정 폴더 용량만 보기
-du -h --max-depth=1    # 현재 디렉토리 하위 1단계 폴더별 용량 보기
-du -ah --max-depth=2   # 파일까지 포함, 2단계까지
 du -ch                 # 전체 합계 포함 출력
 ```
 
@@ -85,6 +83,12 @@ du -sh *
 ```
 26M     files
 12G     model
+```
+
+### 현재 디렉토리 하위 depth 지정해서 용량 확인
+```shell
+du -h --max-depth=1 # 디렉토리
+du -ah --max-depth=1 # 파일까지
 ```
 
 ---
