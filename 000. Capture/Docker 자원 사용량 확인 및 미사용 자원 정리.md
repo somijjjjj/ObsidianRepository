@@ -22,7 +22,9 @@ Build Cache     227       0         15.6GB    15.6GB
 docker system prune -a
 ```
 
-``
+```
+Total reclaimed space: 41.79GB
+```
 미사용 자원 정리
 
 
@@ -46,3 +48,74 @@ nvidia/cuda           11.8.0-base-ubuntu22.04   f895871972c1   21 months ago   3
 
 불필요한 이미지 삭제 
 
+
+
+```bash
+docker system df
+```
+
+```
+
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          11        2         54.7GB    -4.751e+09B (-8%)
+Containers      2         1         4.534MB   16.38kB (0%)
+Local Volumes   0         0         0B        0B
+Build Cache     227       0         15.6GB    15.6GB
+
+```
+
+
+
+### 도커 빌드 캐시 / 레이어 완전 정리
+
+```bash
+# 사용하지 않는 모든 빌드 캐시 제거 (-a=모든 스테이지, -f=확인 없이)
+docker builder prune -af
+
+
+
+```
+
+```
+Total:  24.52GB
+```
+
+
+```bash
+
+# 혹시 남아있는 이미지 레이어/중지 컨테이너/네트워크도 재차 정리
+docker system prune -af --volumes
+```
+
+```
+Deleted Networks:
+llm_network
+
+Total reclaimed space: 0B
+```
+
+```bash
+# 현황 확인
+docker system df
+```
+```
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          0         0         0B        0B
+Containers      0         0         0B        0B
+Local Volumes   0         0         0B        0B
+Build Cache     0         0         0B        0B
+```
+
+
+### WSL 가상디스크 용량 “압축”(진짜로 C: 여유공간 늘리는 단계)
+
+```powershell
+# 1) WSL 전체 종료
+wsl --shutdown
+
+# 2) 도커/우분투 디스크 압축 (Windows 11 최신 빌드에서 지원)
+wsl --manage docker-desktop-data --compact
+wsl --manage docker-desktop --compact
+wsl --manage Ubuntu-22.04 --compact   # 우분투 배포판 이름은 환경에 맞게
+
+```
