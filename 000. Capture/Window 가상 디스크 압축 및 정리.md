@@ -8,6 +8,8 @@ $UbuntuVhd = "C:\Users\misouser\AppData\Local\Packages\CanonicalGroupLimited.Ubu
 
 ```
 
+> 57.62 GB
+
 ```powershell
 $UbuntuVhd = "C:\Users\misouser\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc\LocalState\ext4.vhdx"
 
