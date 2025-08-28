@@ -51,17 +51,17 @@ docker info | grep -E 'Context|Operating System|Docker Root Dir'
 1. Docker Desktop **종료** 또는 **WSL Integration 해제**
     
 2. `/etc/wsl.conf` 설정 (systemd 활성화)
+
+```ini
+[boot]
+systemd=true
+```
     
-    ```ini
-    [boot]
-    systemd=true
-    ```
-    
-    적용:
-    
-    ```powershell
-    wsl --shutdown
-    ```
+적용:
+
+```powershell
+wsl --shutdown
+```
     
 3. WSL 재실행 후 도커 기동
     
