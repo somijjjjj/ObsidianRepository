@@ -17,3 +17,10 @@ scp -i "G:\내 드라이브\insider\s2it-server-ssh-key.pem" -P 22 -r C:\backup\
 ```bash
 scp -i "G:\내 드라이브\insider\somijjjj-server-ssh-key.pem" -P 22 -r "G:\내 드라이브\insider\s2it-server-ssh-key.pem" ubuntu@158.180.95.52:/home/ubuntu
 ```
+
+
+
+```bash
+scp -i "G:\내 드라이브\insider\s2it-server-ssh-key.pem" -P 22 -r C:\Users\admin\Downloads\AD46C60919A7420F4B033C4E998A8937.txt ubuntu@144.24.82.57:/home/ubuntu
+```
+- window -> server
