@@ -26,6 +26,6 @@ scp -i "G:\내 드라이브\insider\s2it-server-ssh-key.pem" -P 22 -r C:\Users\a
 - window -> server
 
 ```bash
-scp -i "G:\내 드라이브\insider\s2it-server-ssh-key.pem" -P 22 -r ubuntu@144.24.82.57:/home/ubuntu/all_dump.sql C:\backup
+scp -i "G:\내 드라이브\insider\s2it-server-ssh-key.pem" -P 22 -r ubuntu@144.24.82.57:/insider/api/nohup.out C:\backup
 ```
 -  server -> window
